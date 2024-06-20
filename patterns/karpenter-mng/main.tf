@@ -22,14 +22,13 @@ terraform {
 
 provider "aws" {
   region = local.region
+  profile = "grip-dev"
 }
 
 # Required for public ECR where Karpenter artifacts are hosted
-provider "aws" {
-  region = "us-east-1"
-  alias  = "virginia"
-  profile = "grip-dev"
-}
+# provider "aws" {
+#  region = "us-east-1"
+# }
 
 provider "helm" {
   kubernetes {
@@ -57,9 +56,9 @@ data "aws_availability_zones" "available" {}
 
 locals {
   name   = "ex-${basename(path.cwd)}"
-  region = "us-west-2"
+  region = "ap-northeast-2"
 
-  vpc_cidr = "10.0.0.0/16"
+  vpc_cidr = "10.120.0.0/16"
   azs      = slice(data.aws_availability_zones.available.names, 0, 3)
 
   tags = {
